@@ -9,6 +9,7 @@ We will use MariaDB as persistent machenism.
 2. Execute DDL from quartz-2.2.3-distribution.tar\quartz-2.2.3\docs\dbTables\tables_mysql.sql
 
 ## Add Required libraries to Gradle (build.gradle)
+
 buildscript {
 	repositories {
         mavenCentral()
@@ -29,36 +30,52 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
 }
+
 ext {
 	mybatisSpringVersion = '1.1.1'
 	quartzVersion = '2.2.3'
 	mariadbClientVersion = '1.5.5'
 }
+
+
 dependencies {
 	compile 'org.slf4j:jcl-over-slf4j'
 	compile 'ch.qos.logback:logback-classic'
 	compile 'org.logback-extensions:logback-ext-spring:0.1.4'
+	
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.springframework.boot:spring-boot-starter-tomcat'
+	
 	compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatisSpringVersion"
+
 	compile "org.quartz-scheduler:quartz:$quartzVersion"
 	compile 'org.springframework:spring-context-support'
+
+	
 	compile 'org.springframework.boot:spring-boot-starter-security'
+	
 	compile "org.mariadb.jdbc:mariadb-java-client:$mariadbClientVersion"
+	
+	
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
+
 
 war {
 	archiveName 'quartz.war'
 }
 
+
 eclipse {
+
   wtp {
     component {
       contextPath = 'quartz'
     }
+    
   }
 }
+
 bootRepackage {
     enabled = false
 }
