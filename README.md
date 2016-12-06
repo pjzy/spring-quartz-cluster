@@ -91,6 +91,7 @@ org.quartz.threadPool.makeThreadsDaemons = true
 
 org.quartz.jobStore.class = org.quartz.impl.jdbcjobstore.JobStoreTX
 org.quartz.jobStore.driverDelegateClass = org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+
 org.quartz.jobStore.isClustered = true
 
 ## Configure quartz (appcontext-quartz.xml)
