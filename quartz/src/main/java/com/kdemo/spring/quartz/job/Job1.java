@@ -4,6 +4,8 @@ import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.kdemo.spring.quartz.service.TextService;
 @Service
 @DisallowConcurrentExecution
 public class Job1 implements Job {
+	private static final Logger logger = LoggerFactory.getLogger(Job1.class);
 	
 	@Autowired
 	private TextService textService;
@@ -21,10 +24,9 @@ public class Job1 implements Job {
 		textService.print();
 		
 		try {
-			Thread.sleep(120_000);
+			Thread.sleep(60_000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Cann't process thread waiting", e);
 		}
 		System.out.println("End");
 	}
