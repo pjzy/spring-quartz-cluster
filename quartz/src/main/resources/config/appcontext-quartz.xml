@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<bean name="runMeJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+	    <property name="jobClass" value="com.kdemo.spring.quartz.job.Job1" />
+	    <property name="group" value="MY_JOBS_GROUP" />
+	    <property name="description" value="Just run for test"/>
+	    <property name="durability" value="true" />
+	</bean>
+	
+
+	<!-- Cron Trigger, run every 5 seconds -->
+	<bean id="cronTrigger"
+                class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="runMeJob" />
+		<property name="description" value="Run every day on 11PM" />
+		<property name="cronExpression" value="0 0 23 ? * *" />
+
+	</bean>
+
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="quartzProperties" ref="quartzProperties"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="overwriteExistingJobs" value="true"/>
+		<property name="jobFactory">
+			<bean class="com.kdemo.spring.quartz.factory.AutowiringSpringBeanJobFactory"/>
+		</property>
+		
+		<property name="jobDetails">
+			<list>
+				<ref bean="runMeJob" />
+			</list>
+		</property>
+
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+	<util:properties id="quartzProperties" location="classpath:/quartz.properties"/>
+
+</beans>
