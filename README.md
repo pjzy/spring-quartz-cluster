@@ -65,19 +65,19 @@ bootRepackage {
 
 
 ## Configure datasource (appcontext-datasource.xml)
-<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.mariadb.jdbc.MariaDbDataSource" />
 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/quartz2" />
 		<property name="username" value="root" />
 		<property name="password" value="123" />
-</bean>
+  </bean>
 
 
 ## Configure transactionManager (appcontext-transaction.xml)
-<bean id="transactionManager"
+   <bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource" />
-<tx:annotation-driven transaction-manager="transactionManager"/>
+   <tx:annotation-driven transaction-manager="transactionManager"/>
 
 ## Configure property (quartz.properties)
 org.quartz.scheduler.instanceId = AUTO
