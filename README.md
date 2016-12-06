@@ -82,7 +82,7 @@ bootRepackage {
 
 
 ## Configure datasource (appcontext-datasource.xml)
-<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
 		<property name="url" value="jdbc:mariadb://127.0.0.1:3306/quartz2" />
 		<property name="username" value="root" />
