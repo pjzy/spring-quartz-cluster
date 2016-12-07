@@ -31,7 +31,10 @@ dependencies {
 	compile 'ch.qos.logback:logback-classic'
 	compile 'org.logback-extensions:logback-ext-spring:0.1.4'
 	
-	compile 'org.springframework.boot:spring-boot-starter-web'
+	
+	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//	compile 'org.springframework.boot:spring-boot-starter-web'
+	
 	compileOnly 'org.springframework.boot:spring-boot-starter-tomcat'
 	
 	compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatisSpringVersion"

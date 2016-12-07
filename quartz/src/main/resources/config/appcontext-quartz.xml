@@ -27,7 +27,7 @@
 		<property name="quartzProperties" ref="quartzProperties"/>
 		<property name="dataSource" ref="dataSource"/>
 		<property name="transactionManager" ref="transactionManager"/>
-		<property name="overwriteExistingJobs" value="true"/>
+		<property name="overwriteExistingJobs" value="false"/>
 		<property name="jobFactory">
 			<bean class="com.kdemo.spring.quartz.factory.AutowiringSpringBeanJobFactory"/>
 		</property>

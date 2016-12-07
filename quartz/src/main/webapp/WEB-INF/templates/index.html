@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Quartz Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"/>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		var apiBaseUrl = 'api/jobs';
+	
+		function refreshJobs() {
+			$.get(apiBaseUrl, function(jobs) {
+				var trs = [];
+				
+				$.each(jobs, function(index, job) {
+					var $tr = $('<tr/>')
+						.data(job)
+						.append('<th scope="row">' + (index + 1) + '</th>')
+						.append('<td>' + job.jobName + '</td>')
+						.append('<td>' + job.jobGroup + '</td>')
+						.append('<td>' + job.description + '</td>')
+						.append('<td>' + job.triggerState + '</td>')
+						.append('<td>' + job.previousFireTime + '</td>')
+						.append('<td>' + job.nextFireTime + '</td>')
+						.append('<td><button type="button" class="btn btn-primary btnRun">Run Now</button> <button type="button" class="btn btn-danger btnDeactivate">Deactivate</button> <button type="button" class="btn btn-success btnActivate">Activate</button></td>')
+					trs.push($tr);
+					
+				});
+				
+				$("#jobRows").html(trs);
+			});	
+		}
+	
+		$(document).ready(function(){
+			refreshJobs();
+			
+			$("#jobRows").on("click", ".btnRun", function() {
+				
+				var job = $(this).parent().parent().data();
+				
+				var triggerApi = apiBaseUrl + "/" + job.jobGroup + "/" + job.jobName + "/trigger";
+				
+				$.post(triggerApi, function( isTrigger ) {
+					if( isTrigger === true ) {
+						setTimeout(function(){ refreshJobs(); }, 300);
+					}
+					else {
+						alert("Something went wrong");
+					}
+				});
+				
+			});
+			
+			$("#jobRows").on("click", ".btnDeactivate", function() {
+				var job = $(this).parent().parent().data();
+				
+				var triggerApi = apiBaseUrl + "/" + job.jobGroup + "/" + job.jobName + "/deactivate";
+				
+				$.post(triggerApi, function( isTrigger ) {
+					if( isTrigger === true ) {
+						refreshJobs();
+					}
+					else {
+						alert("Something went wrong");
+					}
+				});
+			});
+			
+			
+			$("#jobRows").on("click", ".btnActivate", function() {
+				var job = $(this).parent().parent().data();
+				
+				var triggerApi = apiBaseUrl + "/" + job.jobGroup + "/" + job.jobName + "/activate";
+				
+				$.post(triggerApi, function( isTrigger ) {
+					if( isTrigger === true ) {
+						refreshJobs();
+					}
+					else {
+						alert("Something went wrong");
+					}
+				});
+			});
+		});
+		
+		
+	
+	</script>
+</head>
+<body>
+
+<table class="table table-hover table-inverse">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Job Name</th>
+      <th>Job Group</th>
+      <th>Description</th>
+      <th>Trigger State</th>
+      <th>Previous Fire Time</th>
+      <th>Next Fire Time</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="jobRows">
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>Action</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
